@@ -4,8 +4,9 @@
 探討扇出型面板級封裝結構離型取下之機械行為  
 Investigating Mechanical Behaviors of Fan-Out Panel Level Packaging Structures during De-bonding  
 此處分享2.2.3節銅柱子模型應用，其他章節暫未公開  
-
-## 實際應用
+### 使用語言
+ANSYS APDL v16.0
+### 合作單位
 工研院產學合作  
 
 ## 資料介紹
