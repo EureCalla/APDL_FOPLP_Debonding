@@ -2,7 +2,8 @@
 ## 程式碼核心介紹
 ### 🥑 論文題目  (交通大學 機械系固體力學組 林枋萭)
 探討扇出型面板級封裝結構離型取下之機械行為  
-Investigating Mechanical Behaviors of Fan-Out Panel Level Packaging Structures during De-bonding
+Investigating Mechanical Behaviors of Fan-Out Panel Level Packaging Structures during De-bonding  
+此處分享2.2.3節銅柱子模型應用，其他章節暫未公開  
 
 ## 實際應用
 工研院產學合作  
