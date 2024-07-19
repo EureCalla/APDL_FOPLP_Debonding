@@ -1,0 +1,41 @@
+/post1
+plnsol,u,y
+
+*get,step,active,,set,nset
+
+A=
+*dim,A,array,step,2
+
+set,first
+*do,I,1,step,1
+   
+   *get,time,active,,set,time
+   
+   esel,s,mat,,cracklayer+1	$nsle	$nsel,r,loc,y,y%cracklayer%	$nsel,r,loc,x,La
+   fsum
+   *get,Fx,fsum,,item,fx
+   *get,Fy,fsum,,item,fy
+   
+   esel,s,mat,,cracklayer+1	$nsle	$nsel,r,loc,y,y%cracklayer%	$nsel,r,loc,x,La-da
+   *get,N%cracklayer%,node,,num,min	
+   *get,Ux%cracklayer%,node,N%cracklayer%,u,x
+   *get,Uy%cracklayer%,node,N%cracklayer%,u,y
+   
+   esel,s,mat,,cracklayer	$nsle	$nsel,r,loc,y,y%cracklayer%	$nsel,r,loc,x,La-da
+   *get,N%cracklayer+1%,node,,num,min	
+   *get,Ux%cracklayer+1%,node,N%cracklayer+1%,u,x
+   *get,Uy%cracklayer+1%,node,N%cracklayer+1%,u,y
+   alls
+   
+   G1=1/(2*da)*(Fy*(Uy%cracklayer%-Uy%cracklayer+1%))*1000
+   G2=1/(2*da)*(Fx*(Ux%cracklayer%-Ux%cracklayer+1%))*1000
+   
+   A(I,1,1)=time
+   A(I,2,1)=G1+G2
+   
+   set,next
+*enddo
+
+set,last
+*mwrite,A,PPackage-GT_MATRIX,dat,,,,step,2
+(5E15.5)

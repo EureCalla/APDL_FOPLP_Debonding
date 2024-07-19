@@ -1,0 +1,664 @@
+!工研封裝取下2017/02/03
+
+finish
+/clear
+/filname,ppackage-globle
+
+/prep7
+pi=3.1415926
+!!!!!材料等效
+fs=(61**2)*((27.5)**2)*pi/(10000**2)			$fa=1-fs
+
+!Al Pad+SiNx等效
+EAl=70					$ESiNx=112
+VAl=0.24				$VSiNx=0.24
+GAl=EAL/(2*(1+VAl))		$GSiNx=ESiNx/(2*(1+VSiNx))	
+fAl=0.5			$fSiNx=0.5 			!體積比
+EY_3=fAl*EAl+fSiNx*ESiNx
+V_3= fAl*VAl+fSiNx*VSiNx
+G_3= fAl*GAl+fSiNx*GSiNx
+
+!UBM等效
+ETI=102.6			$ECU=120
+VTI=0.32			$VCU=0.34
+GTI=ETI/(2*(1+VTI))	$GCu=ECu/(2*(1+VCu))	
+fTI=0.1/(0.1+0.2)	$fCU=0.2/(0.1+0.2)		!體積比
+!EX_UBM=1/((fTI/ETI)+(fCU/ECU)-(fTI*fCU*(VTI*ECU-VCU*ETI)**2/(ETI*ECU*(fTI*ETI+fCU*ECU))))
+E_UBM=fTI*ETI+fCU*ECU
+V_UBM=fTI*VTI+fCU*VCU
+G_UBM=fTI*GTI+fCU*GCU
+
+!RDL3_D1+UBM等效
+EPI=6.5				$EUBM=E_UBM
+VPI=0.3				$VUBM=V_UBM
+GPI=EPI/(2*(1+VPI))	$GUBM=EUBM/(2*(1+VUBM))	
+fPI=fa  	$fUBM=fs 			!體積比
+EX_4=1/((fPI/EPI)+(fUBM/EUBM)-(fPI*fUBM*(VPI*EUBM-VUBM*EPI)**2/(EPI*EUBM*(fPI*EPI+fUBM*EUBM))))
+EY_4=fPI*EPI+fUBM*EUBM
+V_4= fPI*VPI+fUBM*VUBM
+G_4= fPI*GPI+fUBM*GUBM
+
+!Cu pillar+UBM等效
+ECu=120				$EUBM=E_UBM
+VCu=0.4				$VUBM=V_UBM
+GCu=ECu/(2*(1+VCu))$GUBM=EUBM/(2*(1+VUBM))		
+fCu=((45/2)**2)*pi/(pi*(45/2+0.3)**2)	$fUBM=1-fCu 			!體積比
+!EX_CuUBM=1/((fCu/ECu)+(fUBM/EUBM)-(fCu*fUBM*(VCu*EUBM-VUBM*ECu)**2/(ECu*EUBM*(fCu*ECu+fUBM*EUBM))))
+EY_CuUBM=fCu*ECu+fUBM*EUBM
+V_CuUBM= fCu*VCu+fUBM*VUBM
+G_CuUBM= fCu*GCu+fUBM*GUBM
+
+!PI+Cu pillar+UBM等效
+EPI=6.5				$ECuUBM=EY_CuUBM
+VPI=0.3				$VCuUBM=V_CuUBM
+GPI=EPI/(2*(1+VPI))	$GCuUBM=ECuUBM/(2*(1+VCuUBM))		
+fPI=fa	 	$fCuUBM=fs 			!體積比
+EX_5=1/((fPI/EPI)+(fCuUBM/ECuUBM)-(fPI*fCuUBM*(VPI*ECuUBM-VCuUBM*EPI)**2/(EPI*ECuUBM*(fPI*EPI+fCuUBM*ECuUBM))))
+EY_5=fPI*EPI+fCuUBM*ECuUBM
+V_5= fPI*VPI+fCuUBM*VCuUBM
+G_5= fPI*GPI+fCuUBM*GCuUBM
+
+!underfill+Cu等效
+ECu=120				$Euf=11
+VCu=0.4				$Vuf=0.36
+GCu=ECu/(2*(1+VCu))	$Guf=Euf/(2*(1+Vuf))		
+fCu=fs				$fuf=fa 			!體積比
+EX_6=1/((fCu/ECu)+(fuf/Euf)-(fCu*fuf*(VCu*Euf-Vuf*ECu)**2/(ECu*Euf*(fCu*ECu+fuf*Euf))))
+EY_6=fCu*ECu+fuf*Euf
+V_6= fCu*VCu+fuf*Vuf
+G_6= fCu*GCu+fuf*Guf
+
+!Epoxy+SnAg等效
+ESnAg=55					$EEpoxy=11
+VSnAg=0.365					$VEpoxy=0.36
+GSnAg=ESnAg/(2*(1+VSnAg))	$GEpoxy=EEpoxy/(2*(1+VEpoxy))		
+fSnAg=fs			$fEpoxy=fa 			!體積比
+EX_7=1/((fSnAg/ESnAg)+(fEpoxy/EEpoxy)-(fSnAg*fEpoxy*(VSnAg*EEpoxy-VEpoxy*ESnAg)**2/(ESnAg*EEpoxy*(fSnAg*ESnAg+fEpoxy*EEpoxy))))
+EY_7=fSnAg*ESnAg+fEpoxy*EEpoxy
+V_7= fSnAg*VSnAg+fEpoxy*VEpoxy
+G_7= fSnAg*GSnAg+fEpoxy*GEpoxy
+
+!SnAg+UBM等效
+ESnAg=55					$EUBM=E_UBM
+VSnAg=0.365					$VUBM=V_UBM	
+GSnAg=ESnAg/(2*(1+VSnAg))	$GUBM=EUBM/(2*(1+VUBM))
+fSnAg=((45/2)**2)*pi/(pi*(45/2+0.3)**2)	$fUBM=1-fSnAg 			!體積比 
+EY_SnAgUBM=fSnAg*ESnAg+fUBM*EUBM
+V_SnAgUBM= fSnAg*VSnAg+fUBM*VUBM
+G_SnAgUBM= fSnAg*GSnAg+fUBM*GUBM
+
+!D1+SnAg+UBM等效
+ESnAgUBM=EY_SnAgUBM					$ED1=36
+VSnAgUBM=V_SnAgUBM					$VD1=0.22
+GSnAgUBM=ESnAgUBM/(2*(1+VSnAgUBM))	$GD1=ED1/(2*(1+VD1))
+fSnAgUBM=fS				$fD1=fa 			!體積比
+EX_8=1/((fSnAgUBM/ESnAgUBM)+(fD1/ED1)-(fSnAgUBM*fD1*(VSnAgUBM*ED1-VD1*ESnAgUBM)**2/(ESnAgUBM*ED1*(fSnAgUBM*ESnAgUBM+fD1*ED1))))
+EY_8=fSnAgUBM*ESnAgUBM+fD1*ED1
+V_8= fSnAgUBM*VSnAgUBM+fD1*VD1
+G_8= fSnAgUBM*GSnAgUBM+fD1*GD1
+
+!D1+UBM等效
+EUBM=E_UBM				$ED1=36
+VUBM=V_UBM				$VD1=0.22
+GUBM=EUBM/(2*(1+VUBM))	$GD1=ED1/(2*(1+VD1))
+fUBM=fs 		$fD1=fa 			!體積比
+EX_9=1/((fUBM/EUBM)+(fD1/ED1)-(fUBM*fD1*(VUBM*ED1-VD1*EUBM)**2/(EUBM*ED1*(fUBM*EUBM+fD1*ED1))))
+EY_9=fUBM*EUBM+fD1*ED1
+V_9= fUBM*VUBM+fD1*VD1
+G_9= fUBM*GUBM+fD1*GD1
+
+!-----------------
+!參數設定
+t1=100 	e-3		$E1=21.5	e3	  	$V1=0.3   		!EMC
+t2=250	e-3		$E2=165		e3     	$V2=0.26		!DIE(Chip)
+t3=2.8	e-3		$E3=Ey_3*1000     	$V3=V_3	 		!Al Pad+SiNx
+                $G3=G_3*1000
+
+				!4-9層都是等效的材料 EE部分是未等效部分
+t4=0.3	e-3		$E4y=EY_4*1000	     $V4=V_4		!PI+UBM
+				$E4=EX_4*1000	 	 $G4=G_4*1000 	
+				$EE4=EPI*1000		 $VV4=VPI		!PI
+t5=4.7  e-3		$E5y=EY_5*1000	     $V5=V_5		!PI+UBM+Cu
+				$E5=EX_5*1000	 	 $G5=G_5*1000
+				$EE5=EPI*1000		 $VV5=VPI		!PI
+t6=40	e-3		$E6y=EY_6*1000	     $V6=V_6		!underfill+Cu
+				$E6=EX_6*1000	 	 $G6=G_6*1000
+				$EE6=Euf*1000	 	 $VV6=Vuf		!underfill
+t7=20	e-3		$E7y=EY_7*1000	     $V7=V_7		!Epoxy+SnAg
+				$E7=EX_7*1000	 	 $G7=G_7*1000
+				$EE7=EEpoxy*1000	 $VV7=VEpoxy	!Epoxy
+t8=1.1	e-3		$E8=Ex_8*1000		 $V8=V_8	  	!RDL3_D1+UBM+SnAg
+				$E8y=Ey_8*1000	 	 $G8=G_8*1000
+				$EE8=ED1*1000	 	 $VV8=VD1		!D1				
+t9=0.3	e-3		$E9=EX_9*1000	     $V9=V_9		!RDL3_D1+UBM
+				$E9y=Ey_9*1000	 	 $G9=G_9*1000     
+				$EE9=ED1*1000	 	 $VV9=VD1		!D1		
+                          
+t10=3.6	e-3		$E10=52.8	e3	     $V10=0.068		!RDL3
+t11=1.4	e-3		$E11=36		e3	     $V11=0.22		!RDL2_D1
+t12=3.6	e-3		$E12=52.8	e3	     $V12=0.068		!RDL2
+t13=1.4	e-3		$E13=36		e3	     $V13=0.22		!RDL1_D1
+t14=3.6	e-3		$E14=52.8	e3	     $V14=0.244		!RDL1
+t15=1	e-3		$E15=36		e3	     $V15=0.22		!D1
+                        
+t16=1	e-3		$E16=ESiNx*1000      $V16=VSiNx		!SiNx
+t17=15	e-3		$E17=6.5	e3    	 $V17=0.3		!PI
+t18=700	e-3		$E18=90.95	e3   	 $V18=0.3		!Glass
+!t19=1			$E19=0.00649e3       $V19=0.49		!矽膠
+!t20=3			$E20=2		e3       $V20=0.33		!壓克力
+
+layer=18
+cracklayer=17
+
+y0=0
+*do,I,1,layer,1
+y%I%=y%I-1%+t%I%					!%I%=dummy index 1~11
+*enddo
+
+
+!----------
+LDie=10				!Die長度
+Lgap=7.5*2			!Die之間間距
+L=Lgap*2+LDie*2		!封裝總長度
+La=Lgap/2*3+LDie	!預裂紋成長位置
+P1=-92e-3			!固定試片氣壓
+	
+da=0.001			!裂紋尖端最細mesh size	!25e-3
+w=0.1				!切割的一單位
+ww=5				!探討應力的重點範圍
+fgap=2				!最高點與天花板距離
+dd=5				!吸盤內縮長度
+
+!-----------------------------
+seltol,1e-8
+!幾何建模
+
+*do,I,1,layer,1
+rectng,0,L,y%I-1%,y%I%
+*enddo
+
+ASEL,S,LOC,Y,y%cracklayer-1%,y%cracklayer+1%
+ADELE,ALL,,,1
+ALLSEL
+rectng,0,L,y%cracklayer-1%,y%cracklayer+1%
+
+wprota,0,0,90
+wpoffs,0,0,dd
+!ASBW,ALL
+wpoffs,0,0,-dd	$wpoffs,0,0,Lgap/2	$ASBW,ALL
+wpoffs,0,0,LDie						$ASBW,ALL
+wpoffs,0,0,Lgap						$ASBW,ALL
+wpoffs,0,0,LDie						$ASBW,ALL
+wpcsys,0
+
+LOCAL,11,0,La,y%cracklayer%		!座標系11裂紋尖端
+wpcsys,11
+rectng,-da*20,da*20,-y%cracklayer%,da*20
+rectng,-da*40,da*40,-y%cracklayer%,da*40
+rectng,-w,w,-y%cracklayer%,w
+AOVLAP,ALL
+
+ASEL,S,LOC,X,-w,w	$ASEL,U,LOC,y,-y%cracklayer%,-t%cracklayer%
+ASEL,U,LOC,x,-da*10		$ASEL,U,LOC,x,da*10
+wprota,0,0,90
+wprota,0,45,0	$ASBW,ALL
+wprota,0,90,0	$ASBW,ALL
+allsel
+wpcsys,0
+wpoffs,ww	$wprota,0,0,90	$ASBW,ALL
+wpcsys,0
+wpoffs,-ww	$wprota,0,0,90	$ASBW,ALL
+wpcsys,0
+wpoffs,0,w	$wprota,0,0,90	$wprota,0,90,0		$ASBW,ALL
+wpoffs,0,0,w+y%cracklayer%	$wpoffs,0,0,-y1/2	$ASBW,ALL
+wpoffs,0,0,-y1/2-(t2/4)							$ASBW,ALL
+wpoffs,0,0,-(t2/4)								$ASBW,ALL
+wpoffs,0,0,-(t2/4)								$ASBW,ALL
+wpcsys,0
+wpoffs,0,t18/3	$wprota,0,0,90	$wprota,0,90,0		$ASBW,ALL
+wpoffs,0,0,-t18/3									$ASBW,ALL
+
+wpcsys,0	$wpoffs, w		$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w		$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs, w*2	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w*2	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs, w*4	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w*4	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs, w*6	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w*6	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs, w*12	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w*12	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs, w*24	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0	$wpoffs,-w*24	$wprota,0,0,90		$ASBW,ALL
+wpcsys,0
+AGLUE,ALL
+
+wprota,0,0,90	$wprota,0,90,0	$ASBW,ALL,SEPO
+wpcsys,0
+
+!元素設定
+et,1,plane182
+keyopt,1,1,2			!有Bending開應變增強，但不好收斂
+keyopt,1,3,2			!Plane strain
+
+et,2,targe169
+et,3,conta171
+
+R,1		
+
+*do,I,4,9,1
+MP,EX,I,E%I%
+MP,Ey,I,E%I%y																																				
+MP,EZ,I,E%I%
+MP,PRXY,I,V%I%
+MP,PRYZ,I,V%I%
+MP,PRXZ,I,V%I%
+MP,GXY,I,G%I%
+*enddo
+*do,I,4,9,1
+MP,Ex,I+Layer,EE%I%
+MP,PRXY,I+Layer,VV%I%
+*enddo
+*do,I,1,3,1
+MP,Ex,I,E%I%
+MP,PRXY,I,V%I%
+*enddo
+*do,I,10,layer,1
+MP,Ex,I,E%I%
+MP,PRXY,I,V%I%
+*enddo
+
+									save
+
+!裂紋尖端長方Mesh
+ASEL,S,LOC,x,da*20/2
+ASEL,A,LOC,x,-da*20/2
+LSLA $LSEL,R,LOC,Y,-(t%cracklayer%-da),-da	$lesize,all,,,18
+csys,0	$wpcsys,0
+LOCAL,12,0,La,0		!座標系12裂紋尖端底部
+wpcsys,12
+
+
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y1,y2		$lesize,all,,,62
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y1,y2		$lesize,all,,,62
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y1,y2		$lesize,all,,,62
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y7,y9		$lesize,all,,,1
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y7,y9		$lesize,all,,,1
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y7,y9		$lesize,all,,,1
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y9,y10	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y9,y10	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y9,y10	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y10,y11	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y10,y11	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y10,y11	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y11,y12	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y11,y12	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y11,y12	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y12,y13	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y12,y13	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y12,y13	$lesize,all,,,3
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y13,y14	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y13,y14	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y13,y14	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y14,y15	$lesize,all,,,1
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y14,y15	$lesize,all,,,1
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y14,y15	$lesize,all,,,1
+LSLA $LSEL,R,LOC,X,-da*20	$LSEL,R,LOC,Y,y15,y16	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X, da*20	$LSEL,R,LOC,Y,y15,y16	$lesize,all,,,5
+LSLA $LSEL,R,LOC,X,0		$LSEL,R,LOC,Y,y15,y16	$lesize,all,,,5
+LSLA								$LESIZE,ALL,da
+allsel
+
+												SAVE
+
+!小長方mesh
+csys,11	$wpcsys,11
+ASEL,S,LOC,X,-da*40,da*40	$ASEL,R,LOC,Y,-y%cracklayer%,da*40
+LSLA $LSEL,R,LOC,Y,da*40 						$lesize,all,,,20
+LSLA $LSEL,R,LOC,Y,0,da*40 $LSEL,R,LOC,X,da*40	$lesize,all,,,20
+LSLA $LSEL,R,LOC,Y,0,da*40 $LSEL,R,LOC,X,-da*40	$lesize,all,,,20
+LSLA $LSEL,R,LOC,X,da*30	$lesize,all,,,12,2
+LSLA $LSEL,R,LOC,X,-da*30	$lesize,all,,,12,2
+LSLA $LSEL,R,LOC,Y,da*30	$lesize,all,,,12,2
+csys,12	$wpcsys,12					
+	
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,26
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,32
+LSLA $LSEL,R,LOC,y,0,y3				$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y4				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y5				$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,26
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,14
+LSLA $LSEL,R,LOC,y,0,y8				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y9				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y10			$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y11			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y12			$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y13			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y14			$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y15			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y16			$lesize,all,,,3
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,10
+
+ALLSEL
+										SAVE
+
+!w長方mesh
+ASEL,S,LOC,X,-w,w	$ASEL,R,LOC,Y,y%cracklayer%,y%cracklayer%+w
+lsla $lsel,r,loc,x,-w	$lesize,all,,,20
+lsla $lsel,r,loc,x, w	$lesize,all,,,20
+lsla $lsel,r,loc,y,w+y%cracklayer% $lesize,all,,,20
+
+ASEL,S,LOC,X,-w,w	$ASEL,R,LOC,Y,0,y%cracklayer%+w
+lsla $lsel,r,loc,x,(w-da*40)/2+da*40
+$lsel,u,loc,y,0	$lsel,u,loc,y,y%cracklayer%,y%cracklayer%+w $lesize,all,,,24,1/2
+lsla $lsel,r,loc,x,-((w-da*40)/2+da*40)
+$lsel,u,loc,y,0	$lsel,u,loc,y,y%cracklayer%,y%cracklayer%+w	$lesize,all,,,24,1/2
+lsla $lsel,r,loc,x,0 
+$lsel,u,loc,y,((w-da*40)/2+da*40) 		$lesize,all,,,24,1/2
+
+lsla $lsel,r,loc,x,(w-da*40)/2+da*40	$lesize,all,,,24,2
+lsla $lsel,r,loc,x,-((w-da*40)/2+da*40)	$lesize,all,,,24,2
+
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,14
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,16
+LSLA $LSEL,R,LOC,y,0,y3				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y4				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y5				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,14
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,8
+LSLA $LSEL,R,LOC,y,0,y8				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y9				$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y10			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y11			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y12			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y13			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y14			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y15			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y16			$lesize,all,,,1
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,6
+allsel
+!只要一層
+*do,I,3,5,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,1
+*enddo
+allsel
+*do,I,8,16,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,1
+*enddo
+allsel
+											save
+
+
+!2w長方mesh
+ASEL,S,LOC,X,-2*w,2*w	$ASEL,R,LOC,Y,0,y%Layer%
+lsla $lsel,r,loc,y,y%Layer%	  	$lesize,all,,,14
+lsla $lsel,r,loc,x,-3/2*w		$lesize,all,,,18
+lsla $lsel,r,loc,x, 3/2*w		$lesize,all,,,18
+
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,10
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,12
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,10
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,6
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,4
+
+LSLA $LSEL,R,LOC,y,0,y%cracklayer%+w		$lesize,all,,,18
+LSLA $LSEL,R,LOC,X, W/2						$lesize,all,,,18
+LSLA $LSEL,R,LOC,X,-W/2						$lesize,all,,,18
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,20
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,30!34
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,20!30
+
+ALLSEL								   
+											save
+
+!4w長方mesh
+ASEL,S,LOC,X,-4*w,4*w	$ASEL,R,LOC,Y,0,y%Layer%
+lsla $lsel,r,loc,y,y%Layer%   	$lesize,all,,,16
+lsla $lsel,r,loc,x,-3*w			$lesize,all,,,16,!5
+lsla $lsel,r,loc,x, 3*w			$lesize,all,,,16,!5
+
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,6
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,8
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,6
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,4
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,10
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,14
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,14
+
+								SAVE
+
+!6w長方mesh
+ASEL,S,LOC,X,-6*w,6*w	$ASEL,R,LOC,Y,0,y%Layer%
+lsla $lsel,r,loc,y,y%Layer%	$lesize,all,,,12
+lsla $lsel,r,loc,x,-5*w		$lesize,all,,,12,!5
+lsla $lsel,r,loc,x, 5*w		$lesize,all,,,12,!5
+
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,4
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,6
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,4
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,8
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,10
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,8
+
+									SAVE
+
+!12w
+LSEL,S,LOC,X, 9*W		$lesize,all,,,30,2
+LSEL,S,LOC,X,-9*W		$lesize,all,,,30,2
+
+ASEL,S,LOC,X,-12*w,12*w	$ASEL,R,LOC,Y,0,y%Layer%
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,4
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,6
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,4
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,8
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,10
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,8
+									SAVE
+!24w
+LSEL,S,LOC,X, 18*W		$lesize,all,,,30,2
+LSEL,S,LOC,X,-18*W		$lesize,all,,,30,2
+
+ASEL,S,LOC,X,-24*w,24*w	$ASEL,R,LOC,Y,0,y%Layer%
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,4
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,6
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,4
+									SAVE
+
+
+!ww重點範圍內
+LSEL,S,LOC,X, ((5-24*w)/2+24*w)		$lesize,all,,,30
+LSEL,S,LOC,X,-((5-24*w)/2+24*w)		$lesize,all,,,30
+
+ASEL,S,LOC,X,-ww,ww	$ASEL,R,LOC,Y,0,y%Layer%
+LSLA $LSEL,R,LOC,y,0,y1				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y2				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y6				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y7				$lesize,all,,,2
+LSLA $LSEL,R,LOC,y,0,y17			$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,2
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,4
+LSLA $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,4
+alls
+
+!後面都兩層										
+*do,I,3,17,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,2
+*enddo
+allsel
+										save
+!其他ww右邊
+LSEL,S,LOC,X,ww,LDie-da		$LSEL,r,LOC,y,y2,y%layer%		$lesize,all,,,50,  2
+LSEL,S,LOC,X,ww,LDie-da		$LSEL,R,LOC,y,y0				$lesize,all,,,50,  2
+LSEL,S,LOC,X,ww,LDie-da		$LSEL,R,LOC,y,y1				$lesize,all,,,50,  2
+LSEL,S,LOC,X,ww,LDie-da										$lesize,all,,,50,1/2
+LSEL,S,LOC,X,LDie				$lesize,all,,,2
+LSEL,S,LOC,X,LDie+Lgap/2		$lesize,all,,,2
+LSEL,S,LOC,X,LDie,LDie+Lgap/2-da$lesize,all,200e-3
+allsel
+lplot
+
+csys,0	$wpcsys,0
+wprota,0,0,90	$wpoffs,0,0,dd		$ASBW,ALL
+csys,12	$wpcsys,12
+!只要一層
+*do,I,3,5,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,1
+*enddo
+allsel
+*do,I,8,16,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,1
+*enddo
+allsel
+!後面都兩層										
+*do,I,3,17,1
+LSEL,s,LOC,y,y%I-1%+t%I%/2		$lesize,all,,,2
+*enddo
+allsel
+
+!其他ww左邊
+LSEL,S,LOC,X,-Lgap				$lesize,all,,,2
+LSEL,S,LOC,X,-Lgap-LDie			$lesize,all,,,2
+LSEL,S,LOC,X,-3/2*Lgap-LDie $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,2
+LSEL,S,LOC,X,-3/2*Lgap-LDie $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,4
+LSEL,S,LOC,X,-3/2*Lgap-LDie $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,4
+
+
+csys,0	$wpcsys,0
+LSEL,S,LOC,X,dd $LSEL,R,LOC,Y,y0,Y17+T18/3				$lesize,all,,,2
+LSEL,S,LOC,X,dd $LSEL,R,LOC,Y,y0,Y17+T18/3*2			$lesize,all,,,4
+LSEL,S,LOC,X,dd $LSEL,R,LOC,Y,y0,Y17+T18/3*3			$lesize,all,,,4
+LSEL,S,LOC,X,0,dd				$lesize,all,50e-3
+csys,12	$wpcsys,12
+LSEL,S,LOC,X,-ww,-Lgap+da		$lesize,all,,,100,2
+LSEL,S,,,all					$lesize,all,200e-3
+
+
+LPLOT
+!/PNUM,LINE,1	
+ALLSEL
+
+!------------
+
+!Mesh
+csys,0	$wpcsys,0
+MSHKEY,1
+MSHAPE,0
+TYPE,1
+
+MAT,3
+ASEL,s,LOC,Y,y2,y3
+AMESH,ALL
+*do,I,10,layer,1
+MAT,I
+ASEL,s,LOC,Y,y%I-1%,y%I%
+AMESH,ALL
+*enddo
+MAT,1
+ASEL,S,LOC,Y,y0,y1
+AMESH,ALL
+ASEL,S,LOC,Y,y1,y2
+$ASEL,U,LOC,X,Lgap/2,Lgap/2+LDie
+$ASEL,U,LOC,X,Lgap/2+LDie+Lgap,Lgap/2+LDie*2+Lgap
+AMESH,ALL
+
+MAT,2
+ASEL,S,LOC,Y,y1,y2	$ASEL,U,LOC,X,0,Lgap/2
+$ASEL,U,LOC,X,Lgap/2+LDie,Lgap/2+LDie+Lgap
+$ASEL,U,LOC,X,Lgap/2+LDie*2+Lgap,L
+AMESH,ALL
+
+*do,I,4,9,1
+MAT,I
+ASEL,s,LOC,Y,y%I-1%,y%I%
+$ASEL,U,LOC,X,0,Lgap/2
+$ASEL,U,LOC,X,Lgap/2+LDie,Lgap/2+LDie+Lgap
+$ASEL,U,LOC,X,Lgap/2+LDie*2+Lgap,L
+AMESH,ALL
+*enddo
+*do,I,4,9,1
+MAT,I+layer
+ASEL,s,LOC,Y,y%I-1%,y%I%
+$ASEL,U,LOC,X,Lgap/2,Lgap/2+LDie
+$ASEL,U,LOC,X,Lgap/2+LDie+Lgap,Lgap/2+LDie*2+Lgap
+AMESH,ALL
+*enddo
+
+
+
+alls
+
+
+
+!nummrg裂紋
+csys,0	$wpcsys,0
+NSEL,S,LOC,Y,Y%cracklayer%	$NSEL,R,LOC,X,La,L
+nummrg,node
+
+									SAVE
+!------------
+!地板
+nsel,s,loc,y,0
+type,3	$R,2
+esurf
+allsel
+
+K,1000,0,0	$K,1001,L,0	$L,1001,1000
+LSEL,R,Length,,L	
+type,2	$R,2
+Lmesh,all
+allsel
+
+
+										SAVE
+
+/SOLU
+
+!B.C.
+nsel,s,loc,x,L					$d,all,all,0
+esel,s,type,,2		$nsle		$d,all,all,0
+alls
+
+antype,0
+nlgeom,on
+kbc,0
+outres,all,last
+nsubst,2,10000,1
+
+time,0.01
+esel,s,type,,1	$nsle	$nsel,r,loc,y,y0	$sf,all,pres,P1
+alls
+solve
+
+!萬事起頭難
+time,0.02
+esel,s,mat,,18	$NSLE	$nsel,R,loc,x,0	$nsel,r,loc,y,y17,y18	$D,all,UY,0.001
+alls
+solve
+
+*do,I,1,8,1
+time,I*0.1
+esel,s,mat,,18	$NSLE	$nsel,R,loc,x,0	$nsel,r,loc,y,y17,y18	$D,all,UY,I*0.1
+alls
+solve
+*enddo
+
+*do,I,1,10,1
+time,(0.8+0.01*I)
+esel,s,mat,,18	$NSLE	$nsel,R,loc,x,0	$nsel,r,loc,y,y17,y18	$D,all,UY,(0.8+0.01*I)
+alls
+solve
+*enddo
+
+/post1
+set,14

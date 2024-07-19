@@ -1,0 +1,40 @@
+fini
+/clear
+
+!------resuming coarse model B.C.
+resume,ppackage-globle,db
+/post1
+file,ppackage-globle,rst
+set,14
+CBDOF,ppackage-sub,node,,ppackage-sub,cbdo,,0,,0
+fini
+
+!------Analysis of submodel----
+/CLEAR
+RESUME,ppackage-sub,db
+
+/solu
+antype,static
+nlgeom,on
+kbc,0
+outres,all,last
+nsubst,2,10000,1
+/input,ppackage-sub,cbdo
+
+
+!Lx=165	e-3			!子模型寬度
+!Ly=449	e-3			!子模型高度
+!tAA=35	e-3			!子模型AA間距寬度
+!tBB=45	e-3			!子模型BB間距寬度
+!tCC=55	e-3			!子模型CC間距寬度
+!LDie=10				!Die長度
+!Lgap=7.5*2			!Die之間間距
+!L=Lgap*2+LDie*2		!封裝總長度
+!La=Lgap/2*3+LDie	!預裂紋成長位置
+!diegap=50e-3		!子模型中心離第二顆die邊緣距離
+!Lw=La+diegap-Lx/2	!globle座標下子模型左下角x位置
+!nsel,s,loc,y,0	$nsel,r,loc,x,lw+lx
+!D,ALL,ALL,0
+alls
+SOLVE
+FINI
